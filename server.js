@@ -11,7 +11,14 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        "https://elitebarber.vercel.app", // seu frontend no Vercel
+        "http://localhost:5173"           // para testes locais
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.json());
 
 // Conexão com MongoDB
