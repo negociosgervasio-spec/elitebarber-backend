@@ -13,7 +13,7 @@ const app = express();
 // Middleware
 app.use(cors({
     origin: [
-        "https://elitebarber.vercel.app", // seu frontend no Vercel
+        "https://elitebarber-ruby.vercel.app", // seu frontend no Vercel
         "http://localhost:5173"           // para testes locais
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
