@@ -11,11 +11,19 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    "https://elitebarber-ruby.vercel.app",
+    "http://localhost:5173"
+].filter(Boolean);
+
 app.use(cors({
-    origin: [
-        "https://elitebarber-ruby.vercel.app", // seu frontend no Vercel
-        "http://localhost:5173"           // para testes locais
-    ],
+    origin: (origin, callback) => {
+        if (!origin || process.env.NODE_ENV !== "production" || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        callback(new Error(`Acesso de CORS negado para a origem: ${origin}`));
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
