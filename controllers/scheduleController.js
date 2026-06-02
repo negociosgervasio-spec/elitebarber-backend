@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator');
 exports.createSchedule = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log("Validation errors:", errors.array());
     return res.status(400).json({ errors: errors.array() });
   }
 
@@ -18,6 +19,7 @@ exports.createSchedule = async (req, res) => {
     await schedule.save();
     res.status(201).json({ message: "Agendamento criado com sucesso!", schedule });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };
