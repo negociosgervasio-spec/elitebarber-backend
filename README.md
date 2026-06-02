@@ -67,3 +67,19 @@ Para testar no celular com backend local:
 - A API usa `express.json()` para receber JSON.
 - Caso o frontend retorne erro de CORS no celular, verifique se a origem está permitida.
 - Se precisa conectar de um domínio diferente, adicione esse domínio ao `allowedOrigins` em `server.js`.
+
+## Problema comum com MongoDB Atlas (MongooseServerSelectionError)
+
+Se ao iniciar você receber um erro como `MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster`, verifique os pontos abaixo:
+
+- Network Access (IP whitelist): no painel do Atlas vá em _Network Access_ → _Add IP Address_ e adicione o IP do servidor onde sua app está rodando. Para deploys em plataformas como Render que usam IPs dinâmicos, você pode adicionar temporariamente `0.0.0.0/0` para permitir todas as origens enquanto testa (não recomendado em produção).
+- String de conexão: confirme que `MONGO_URI` tem o formato correto, incluindo o nome do banco, por exemplo:
+
+```env
+MONGO_URI=mongodb+srv://usuario:senha@cluster0.ewuyp49.mongodb.net/elitebarber?retryWrites=true&w=majority
+```
+
+- Credenciais: verifique usuário e senha do banco e que o usuário tem permissões de leitura/escrita no banco alvo.
+- Variáveis de ambiente: defina `MONGO_URI` no painel de Environment da sua plataforma (Render), não apenas no `.env` local.
+
+Se precisar, adicione prints dos logs de conexão (mostramos `err.stack`) para diagnosticar o problema.

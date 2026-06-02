@@ -4,6 +4,8 @@ const scheduleController = require('../controllers/scheduleController');
 const scheduleValidator = require('../middlewares/scheduleValidator');
 
 router.post('/', scheduleValidator, scheduleController.createSchedule);
+router.get('/available', scheduleController.getAvailableTimes);
+router.get('/find', scheduleController.findByPhoneAndDate);
 router.get('/', scheduleController.getSchedules);
 router.get('/:id', scheduleController.getScheduleById);
 router.put('/:id', scheduleValidator, scheduleController.updateSchedule);
